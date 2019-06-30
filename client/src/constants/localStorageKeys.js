@@ -1,0 +1,3 @@
+export default {
+  REGISTRATION_LANDING: "REGISTRATION_LANDING"
+};

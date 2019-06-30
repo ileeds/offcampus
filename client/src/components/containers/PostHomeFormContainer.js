@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {postHome} from '../../actions/homeActions';
-import {withRouter} from "react-router-dom";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { postHome } from "../../actions/homeActions";
+import { withRouter } from "react-router-dom";
 
 class PostHomeFormContainer extends Component {
-
   constructor() {
     super();
 
@@ -19,7 +18,7 @@ class PostHomeFormContainer extends Component {
     let updatedForm = Object.assign({}, this.state.submission);
 
     updatedForm[event.target.id] = event.target.value;
-    this.setState({submission: updatedForm});
+    this.setState({ submission: updatedForm });
   }
 
   submitForm() {
@@ -28,22 +27,40 @@ class PostHomeFormContainer extends Component {
   }
 
   render() {
-
-    return (<div>
-      Title
-      <input onChange={this.updateForm.bind(this)} id="title" type="text" placeholder="Title"/><br/>
-      Address
-      <input onChange={this.updateForm.bind(this)} id="address" type="text" placeholder="Address"/><br/>
-      Description<br/>
-      <textarea onChange={this.updateForm.bind(this)} id="description" type="text"></textarea><br/>
-
-      <button onClick={this.submitForm.bind(this)}>Submit story</button>
-    </div>)
+    return (
+      <div>
+        Title
+        <input
+          onChange={this.updateForm.bind(this)}
+          id="title"
+          type="text"
+          placeholder="Title"
+        />
+        <br />
+        Address
+        <input
+          onChange={this.updateForm.bind(this)}
+          id="address"
+          type="text"
+          placeholder="Address"
+        />
+        <br />
+        Description
+        <br />
+        <textarea
+          onChange={this.updateForm.bind(this)}
+          id="description"
+          type="text"
+        />
+        <br />
+        <button onClick={this.submitForm.bind(this)}>Submit story</button>
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => {
-  return {}
-}
+  return {};
+};
 
 export default withRouter(connect(mapStateToProps)(PostHomeFormContainer));

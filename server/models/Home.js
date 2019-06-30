@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const HomeSchema = new mongoose.Schema({
   title: String,
@@ -20,6 +20,6 @@ const HomeSchema = new mongoose.Schema({
   }
 });
 
-mongoose.model('Home', HomeSchema);
+mongoose.model("Home", HomeSchema);
 
-module.exports = mongoose.model('Home');
+module.exports = mongoose.model("Home");

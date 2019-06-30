@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
-import Header from './Header';
+import React, { Component } from "react";
+import Header from "./Header";
 
 class Layout extends Component {
   render() {
-    return (<div>
-      <Header/>
+    return (
       <div>
-        {this.props.children}
+        <Header />
+        <div>{this.props.children}</div>
       </div>
-    </div>);
+    );
   }
 }
 

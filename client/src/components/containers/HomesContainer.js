@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import Home from '../presentation/Home';
-import {connect} from 'react-redux'
-import {fetchHomes} from '../../actions/homeActions'
+import React, { Component } from "react";
+import Home from "../presentation/Home";
+import { connect } from "react-redux";
+import { fetchHomes } from "../../actions/homeActions";
 
 class HomesContainer extends Component {
   componentDidMount() {
@@ -10,23 +10,29 @@ class HomesContainer extends Component {
 
   render() {
     const homeItems = this.props.homes.map((home, i) => {
-      return (<li key={i}><Home data={home}/></li>);
+      return (
+        <li key={i}>
+          <Home data={home} />
+        </li>
+      );
     });
-    return (<div>
-      <h2>Available Homes</h2>
-      <ul>
-        {
-          (this.props.homes.length > 0)
-            ? <ul>{homeItems}</ul>
-            : <div>No homes currently available</div>
-        }
-      </ul>
-    </div>)
+    return (
+      <div>
+        <h2>Available Homes</h2>
+        <ul>
+          {this.props.homes.length > 0 ? (
+            <ul>{homeItems}</ul>
+          ) : (
+            <div>No homes currently available</div>
+          )}
+        </ul>
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => {
-  return {homes: state.homes.homes}
-}
+  return { homes: state.homes.homes };
+};
 
-export default connect(mapStateToProps)(HomesContainer)
+export default connect(mapStateToProps)(HomesContainer);

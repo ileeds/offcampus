@@ -1,20 +1,31 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+var validator = require("validator");
 
 const SALT_WORK_FACTOR = 10;
 
 const UserSchema = new mongoose.Schema({
-  username: {
+  email: {
     type: String,
     index: {
       unique: true
-    }
+    },
+    required: true,
+    validate: [validator.isEmail, "invalid email"]
   },
-  password: String,
+  password: { type: String, required: true },
   created: {
     type: Date,
     required: true,
     default: new Date()
+  },
+  firstName: {
+    type: String,
+    required: true
+  },
+  lastName: {
+    type: String,
+    required: true
   },
   updated: {
     type: Date
@@ -24,16 +35,19 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-UserSchema.methods.comparePassword = function comparePassword(password, callback) {
+UserSchema.methods.comparePassword = function comparePassword(
+  password,
+  callback
+) {
   bcrypt.compare(password, this.password, callback);
 };
 
 // On save, hash the password
 
-UserSchema.pre('save', function saveHook(next) {
+UserSchema.pre("save", function saveHook(next) {
   const user = this;
 
-  if (!user.isModified('password')) {
+  if (!user.isModified("password")) {
     return next();
   }
 
@@ -52,4 +66,4 @@ UserSchema.pre('save', function saveHook(next) {
   });
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);
