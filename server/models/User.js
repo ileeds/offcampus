@@ -35,11 +35,8 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-UserSchema.methods.comparePassword = function comparePassword(
-  password,
-  callback
-) {
-  bcrypt.compare(password, this.password, callback);
+UserSchema.methods.comparePassword = function comparePassword(password, done) {
+  bcrypt.compare(password, this.password, done);
 };
 
 // On save, hash the password

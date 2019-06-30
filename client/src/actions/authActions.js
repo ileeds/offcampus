@@ -15,7 +15,7 @@ function logout() {
 
 export function submitLogin(data) {
   return dispatch => {
-    return fetch(`/user/${data.email}`, {
+    return fetch(`/user/email/${data.email}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -41,8 +41,9 @@ export function submitLogin(data) {
 }
 
 export function submitRegister(data) {
+  let resStatus;
   return dispatch => {
-    return fetch("/user/", {
+    return fetch("/user/email", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -52,19 +53,25 @@ export function submitRegister(data) {
       mode: "cors"
     })
       .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
+        resStatus = response.status;
         return response.json();
       })
       .then(data => {
-        localStorage.setItem("email", data.data.email);
-        localStorage.setItem("token", data.data.tokenID);
-        localStorage.setItem(localStorageKeys.REGISTRATION_LANDING, true);
+        if (resStatus === 201) {
+          localStorage.setItem("email", data.data.email);
+          localStorage.setItem("token", data.data.tokenID);
+          localStorage.setItem(localStorageKeys.REGISTRATION_LANDING, true);
 
-        dispatch(userRegistered(data.data.email));
+          dispatch(userRegistered(data.data.email));
+        } else if (resStatus === 400) {
+          debugger;
+        } else if (resStatus === 500) {
+          console.error("server error, try again");
+        } else {
+          console.error("unhandled");
+        }
       })
-      .catch(e => console.log(e));
+      .catch(e => console.error(e));
   };
 }
 

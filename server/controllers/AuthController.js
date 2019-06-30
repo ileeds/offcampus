@@ -1,26 +1,25 @@
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 module.exports = {
-  login: function(email, password, callback) {
+  emailLogin: (email, password, done) => {
     User.findOne(
       {
         email: email
       },
       function(err, user) {
         if (err) {
-          callback(err, null);
+          done(err, null);
           return;
         }
 
         if (!user) {
           //User not found
-          callback(err, null);
+          done(err, null);
         } else {
           user.comparePassword(password, function(err, isMatch) {
             if (err) {
-              callback(err, null);
+              done(err, null);
               return;
             }
 
@@ -32,9 +31,9 @@ module.exports = {
                 },
                 process.env.JWTSECRET
               );
-              callback(null, authToken);
+              done(null, authToken);
             } else {
-              callback(err, null);
+              done(err, null);
             }
           });
         }
@@ -42,15 +41,12 @@ module.exports = {
     );
   },
 
-  register: function(email, password, firstName, lastName, callback) {
+  emailRegister: (email, password, firstName, lastName, done) => {
     const newUser = new User({ email, password, firstName, lastName });
 
-    newUser.save(function(err, user) {
+    newUser.save().then(err, user => {
       if (err) {
-        if (err.name == "ValidationError" || err.name == "MongoError") {
-          err.status = 400;
-        }
-        callback(err, null);
+        done(err, null);
         return;
       }
 
@@ -61,7 +57,7 @@ module.exports = {
         },
         process.env.JWTSECRET
       );
-      callback(null, authToken);
+      done(null, authToken);
     });
   }
 };
